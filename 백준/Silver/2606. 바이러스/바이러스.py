@@ -10,15 +10,14 @@ for i in range(con):
 result = [0] * (com+1)
 start = 1
 result[start] = 1
-s = []
-s.append(start)
-
-while s:
-    out = s.pop()
-    for i in data[out]:
-        if result[i] != 1:
-            s.append(i)
-            result[i] = 1
+            
+def dfs(data, s, visited):
+    for i in data[s]:
+        if visited[i] != 1:
+            visited[i] = 1
+            dfs(data, i, visited)
+            
+dfs(data, 1, result)
 
 total = 0
 for i in range(len(result)):
