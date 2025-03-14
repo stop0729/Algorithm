@@ -1,5 +1,7 @@
 from collections import deque
+import sys
 
+input = sys.stdin.readline
 N = int(input())
 
 data = [list(map(int, input().split())) for i in range(N)]
