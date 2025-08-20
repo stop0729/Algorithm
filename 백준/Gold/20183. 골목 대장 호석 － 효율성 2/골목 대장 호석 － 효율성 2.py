@@ -22,7 +22,7 @@ for i in range(M):
 # 아래처럼 하면 마지막으로 true였던 mid가 ans가 되는것
 def solution():
     l = 0
-    r = 1e9+1
+    r = 10**18
     while (r>=l):
         mid = (l + r) // 2 
         if get_rout(mid):
@@ -30,14 +30,14 @@ def solution():
             r = mid-1
         else:
             l = mid+1
-    return -1 if r == 1e9+1 else int(ans)
+    return -1 if r == 10**18 else ans
 
 # 
 
 
 
 def get_rout(mid):
-    distance = [1e9+1] * (N+1)
+    distance = [10**18] * (N+1)
     distance[A] = 0
 
     q = []
@@ -58,7 +58,7 @@ def get_rout(mid):
                 distance[next] = next_dist
                 heapq.heappush(q, (next_dist, next))
 
-    if distance[B] == 1e9+1 or distance[B] > C:
+    if distance[B] == 10**18 or distance[B] > C:
         return False
     else:
         return True
