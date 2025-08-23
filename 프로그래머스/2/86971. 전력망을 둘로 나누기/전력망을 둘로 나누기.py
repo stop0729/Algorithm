@@ -1,46 +1,40 @@
-# 리스트 안에 값이 두개로 나눠져 있을때 이것들의 개수 비교하는 방법
+from collections import deque
 
-def find_parent(parent, x):
-    if parent[x] != x:
-        parent[x] = find_parent(parent, parent[x])
-    return parent[x]
+def bfs(a, graph, n):
+    visited = [0] * (n+1)
+    visited[a] = 1
+    q = deque()
+    q.append(a)
+    ans = 1
+    
+    while q:
+        next = q.popleft()
+        for i in graph[next]:
+            if visited[i] == 0:
+                visited[i] = 1
+                q.append(i)
+                ans += 1
 
-def union_parent(parent, x, y):
-    a = find_parent(parent, x)
-    b = find_parent(parent, y)
-    
-    if a <= b:
-        parent[b] = a
-    else:
-        parent[a] = b
-
-def find_diff(i, n, wires):
-    parent = [i for i in range(n+1)]
-    wires.sort()
-    
-    for j in wires:
-        if i == j:
-            continue
-        a, b = j
-        union_parent(parent, a, b)
-    
-    num_a = 1
-    num_b = 0
-    
-    temp = parent[1]
-
-    for j in range(2, len(parent)):
-        if find_parent(parent, j) == temp:
-            num_a += 1
-        else:
-            num_b += 1
-    return abs(num_a - num_b)
-    
+    return ans
+                
+        
 
 def solution(n, wires):
-    answer = 1e9
+    graph = [[] for _ in range(n+1)]
     for i in wires:
-        temp = find_diff(i, n, wires)
-        answer = min(answer, temp)
+        a, b = i
+        graph[a].append(b)
+        graph[b].append(a)
+    
+    answer = n
+    for i in wires:
+        a, b = i
+        graph[a].remove(b)
+        graph[b].remove(a)
         
+        answer = min(abs(bfs(a, graph, n) - bfs(b, graph, n)), answer)
+
+        graph[a].append(b)
+        graph[b].append(a)
+    
     return answer
