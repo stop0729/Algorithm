@@ -3,7 +3,6 @@ def dfs(n, start, data, visited):
         if visited[i] == False:
             visited[i] = True
             dfs(n, i, data, visited)
-    return visited
     
 def solution(n, computers):
     data = [[] for i in range(n+1)]
@@ -19,7 +18,8 @@ def solution(n, computers):
     
     for start in range(1, n+1):
         if visited[start] == False:
+            visited[start] = True
             answer += 1
-            visited = dfs(n, start, data, visited)
+            dfs(n, start, data, visited)
             
     return answer
