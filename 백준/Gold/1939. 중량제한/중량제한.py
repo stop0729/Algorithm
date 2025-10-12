@@ -2,23 +2,6 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-def bfs(weight): # weight == now
-	queue = deque()
-	queue.append(one)
-	visited = [False] * (n+1)
-	visited[one] = True
-	
-	while queue:
-		x= queue.popleft() # w == limit
-		
-		for i,w in bridges[x]:
-			if not visited[i] and w >= weight:
-				visited[i] = True
-				queue.append(i)
-	
-	if visited[two]: return True
-	else: return False
-	
 n, m = map(int,input().split())
 bridges = [[] for _ in range(n+1)]
 
@@ -26,20 +9,37 @@ for i in range(m):
 	a,b,c = map(int,input().split())
 	bridges[a].append([b,c])
 	bridges[b].append([a,c])
-	
-one, two = map(int,input().split())
+      
+a, b = map(int, input().split())
 
-start = 1
+def bfs(weight):
+    q = deque()
+    q.append(a)
+    visited = [False] * (n+1)
+    visited[a] = True
+
+    while q:
+          now = q.popleft()
+
+          for next, w in bridges[now]:
+                if not visited[next] and w >= weight:
+                        visited[next] = True
+                        q.append(next)
+
+    if visited[b]: return True
+    else: return False
+
+start = 0
 end = 1000000000
-
 result = 0
+
 while start <= end:
-	mid = (start + end) //2
-	
-	if bfs(mid):
-		result = mid
-		start = mid + 1
-	else:
-		end = mid - 1
-		
+    mid = (start+end) // 2
+
+    if bfs(mid):
+        result = mid
+        start = mid + 1
+    else:
+        end = mid - 1
+
 print(result)
