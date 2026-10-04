@@ -1,22 +1,19 @@
 from collections import deque
 
 def solution(priorities, location):
-    q = deque(priorities)
+    q = []
+    for i in range(len(priorities)):
+        q.append((priorities[i], i))
+    q = deque(q)
     count = 0
-
     while q:
-        mx = max(q)
-        tmp = q.popleft()
-
-        if tmp == mx:
-            count += 1  # 출력된 문서 수
-            if location == 0:
+        prior, idx = q.popleft()
+        if prior == max(priorities):
+            count += 1
+            if idx == location:
                 return count
-            else:
-                location -= 1
+            priorities.remove(prior)
         else:
-            q.append(tmp)
-            if location == 0:
-                location = len(q) - 1
-            else:
-                location -= 1
+            q.append((prior, idx))
+        
+        
