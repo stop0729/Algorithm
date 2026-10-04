@@ -1,16 +1,14 @@
 def solution(clothes):
-    dict = {}
-    
+    comb = {}
     for i in clothes:
-        if i[1] not in dict:
-            dict[i[1]] = 1
+        if i[1] in comb:
+            comb[i[1]] += 1
         else:
-            dict[i[1]] += 1
+            comb[i[1]] = 1
     
     answer = 1
     
-    for i in dict:
-        answer = answer * (dict[i]+1)
-        
-    answer = answer - 1
+    for i in comb:
+        answer = answer * (comb[i]+1)
+    answer -= 1
     return answer
